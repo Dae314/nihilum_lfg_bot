@@ -1,31 +1,35 @@
 {
-  "name": "nihilum_lfg_bot",
-  "version": "0.1.0",
-  "description": "Discord LFG bot for Nihilum guilds in AFK Arena",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Dae314/nihilum_lfg_bot.git"
-  },
-  "keywords": [
-    "discord",
-    "bot",
-    "lfg",
-    "afk arena",
-    "nihilum"
-  ],
-  "author": "Dae314",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Dae314/nihilum_lfg_bot/issues"
-  },
-  "homepage": "https://github.com/Dae314/nihilum_lfg_bot#readme",
-  "dependencies": {
-    "discord.js": "^13.7.0",
-    "dotenv": "^16.0.1"
-  }
+	"name": "nihilum_lfg_bot",
+	"version": "0.1.0",
+	"description": "Discord LFG bot for Nihilum guilds in AFK Arena",
+	"main": "index.js",
+	"scripts": {
+		"start": "npm run deploy && node index.js",
+		"deploy": "node deploy-commands.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Dae314/nihilum_lfg_bot.git"
+	},
+	"keywords": [
+		"discord",
+		"bot",
+		"lfg",
+		"afk arena",
+		"nihilum"
+	],
+	"author": "Dae314",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Dae314/nihilum_lfg_bot/issues"
+	},
+	"homepage": "https://github.com/Dae314/nihilum_lfg_bot#readme",
+	"dependencies": {
+		"@discordjs/builders": "^0.13.0",
+		"@discordjs/rest": "^0.4.1",
+		"discord-api-types": "^0.33.1",
+		"discord.js": "^13.7.0",
+		"dotenv": "^16.0.1"
+	}
 }
