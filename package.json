@@ -14,12 +14,16 @@
     "discord",
     "bot",
     "lfg",
-    "afk arena"
+    "afk arena",
+    "nihilum"
   ],
   "author": "Dae314",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Dae314/nihilum_lfg_bot/issues"
   },
-  "homepage": "https://github.com/Dae314/nihilum_lfg_bot#readme"
+  "homepage": "https://github.com/Dae314/nihilum_lfg_bot#readme",
+  "dependencies": {
+    "discord.js": "^13.7.0"
+  }
 }
