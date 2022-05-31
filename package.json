@@ -1,0 +1,25 @@
+{
+  "name": "nihilum_lfg_bot",
+  "version": "0.1.0",
+  "description": "Discord LFG bot for Nihilum guilds in AFK Arena",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dae314/nihilum_lfg_bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "lfg",
+    "afk arena"
+  ],
+  "author": "Dae314",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dae314/nihilum_lfg_bot/issues"
+  },
+  "homepage": "https://github.com/Dae314/nihilum_lfg_bot#readme"
+}
