@@ -39,14 +39,12 @@ module.exports = class Database {
 		CREATE TABLE IF NOT EXISTS users (
 			id INTEGER PRIMARY KEY,
 			username TEXT UNIQUE NOT NULL
-		);`);
-		this.db.exec(`
+		);
 		CREATE TABLE IF NOT EXISTS groupTypes (
 			id INTEGER PRIMARY KEY,
 			name TEXT UNIQUE NOT NULL,
 			memberMax INTEGER NOT NULL
-		);`);
-		this.db.exec(`
+		);
 		CREATE TABLE IF NOT EXISTS groups (
 			id INTEGER PRIMARY KEY,
 			owner INTEGER NOT NULL,
@@ -54,8 +52,7 @@ module.exports = class Database {
 			createdAt TEXT NOT NULL,
 			FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE,
 			FOREIGN KEY (type) REFERENCES groupTypes(id) ON DELETE CASCADE
-		);`);
-		this.db.exec(`
+		);
 		CREATE TABLE IF NOT EXISTS membership (
 			id INTEGER PRIMARY KEY,
 			user INTEGER,
@@ -72,13 +69,18 @@ module.exports = class Database {
 			DROP TABLE IF EXISTS groupTypes;
 			DROP TABLE IF EXISTS groups;
 			DROP TABLE IF EXISTS membership;
-		`);
-		this.createTables();
+		`, (err) => {
+			if (err) {
+				console.log(`Error wiping database: ${err}`);
+				exit(1);
+			}
+			this.createTables();
+		});
 	}
 	// insert test data into the database
-	loadTestData() {
+	async loadTestData() {
 		const now = new Date();
-		this.db.run(`INSERT INTO users (username)
+		await this.db.run(`INSERT INTO users (username)
 			VALUES
 				('user1'),
 				('user2'),
@@ -90,15 +92,15 @@ module.exports = class Database {
 				('user8'),
 				('user9'),
 				('user10');`);
-		this.db.run(`INSERT INTO groupTypes (name, memberMax)
+		await this.db.run(`INSERT INTO groupTypes (name, memberMax)
 			VALUES
 				('lab', 3),
 				('hf', 5);`);
-		this.db.run(`INSERT INTO groups (owner, type, createdAt)
+		await this.db.run(`INSERT INTO groups (owner, type, createdAt)
 			VALUES
 				(1, 1, '${now.toISOString()}'),
 				(2, 2, '${now.toISOString()}');`);
-		this.db.run(`INSERT INTO membership (user, groupID, joinedAt)
+		await this.db.run(`INSERT INTO membership (user, groupID, joinedAt)
 			VALUES
 				(1, 1, '${now.toISOString()}'),
 				(2, 2, '${now.toISOString()}');`);
