@@ -149,7 +149,7 @@ module.exports = class Database {
 
 	// user commands
 	addUser(username) {
-		const sql = `INSERT INTO users (username) VALUES ("$username");`;
+		const sql = `INSERT INTO users (username) VALUES ($username);`;
 		const params = { $username: username };
 		return this.run(sql, params);
 	}
@@ -175,9 +175,14 @@ module.exports = class Database {
 
 	// groupType commands
 	addGroupType(name, memberMax) {
-		const sql = `INSERT INTO groupTypes (name, memberMax) VALUES ("$name", $memberMax);`;
+		const sql = `INSERT INTO groupTypes (name, memberMax) VALUES ($name, $memberMax);`;
 		const params = { $name: name, $memberMax: memberMax };
 		return this.run(sql, params);
+	}
+	getGroupType(id) {
+		const sql = `SELECT * FROM groupTypes WHERE id = $id;`;
+		const params = { $id: id };
+		return this.get(sql, params);
 	}
 	getGroupTypebyName(name) {
 		const sql = `SELECT * FROM groupTypes WHERE name = $name;`;
@@ -199,7 +204,7 @@ module.exports = class Database {
 		const now = new Date();
 		const sql = `INSERT INTO groups (owner, type, createdAt)
 			VALUES
-				("$owner", $type, "$now");`;
+				($owner, $type, $now);`;
 		const params = { $owner: owner, $type: type, $now: now.toISOString() };
 		return this.run(sql, params);
 	}
@@ -234,7 +239,7 @@ module.exports = class Database {
 		const now = new Date();
 		const sql = `INSERT INTO membership (user, groupID, joinedAt)
 			VALUES
-				("$user", $group, "$now");`;
+				($user, $group, $now);`;
 		const params = { $user: user, $group: group, $now: now.toISOString() };
 		return this.run(sql, params);
 	}
@@ -252,14 +257,14 @@ module.exports = class Database {
 		const params = { $user: user, $group: group };
 		return this.run(sql, params);
 	}
-	getAllGroupMembers(group) {
+	getGroupMembers(group) {
 		const sql = `
 			SELECT
-				user.id as id
-				user.username as username
+				users.id as id,
+				users.username as username
 			FROM
 				membership
-				INNER JOIN users ON membership.user = user.id
+				INNER JOIN users ON membership.user = users.id
 			WHERE
 				groupID = $group;`;
 		const params = { $group: group };
