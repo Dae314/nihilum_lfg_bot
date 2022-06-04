@@ -47,6 +47,7 @@ module.exports = class Database {
 		);
 		CREATE TABLE IF NOT EXISTS groups (
 			id INTEGER PRIMARY KEY,
+			name TEXT NOT NULL,
 			owner INTEGER NOT NULL,
 			type INTEGER NOT NULL,
 			createdAt TEXT NOT NULL,
@@ -96,10 +97,10 @@ module.exports = class Database {
 			VALUES
 				('lab', 3),
 				('hf', 5);`);
-		await this.db.run(`INSERT INTO groups (owner, type, createdAt)
+		await this.db.run(`INSERT INTO groups (owner, name, type, createdAt)
 			VALUES
-				(1, 1, '${now.toISOString()}'),
-				(2, 2, '${now.toISOString()}');`);
+				(1, "User1's group", 1, '${now.toISOString()}'),
+				(2, "User2's group", 2, '${now.toISOString()}');`);
 		await this.db.run(`INSERT INTO membership (user, groupID, joinedAt)
 			VALUES
 				(1, 1, '${now.toISOString()}'),
@@ -230,6 +231,12 @@ module.exports = class Database {
 		const result = await this.all(sql, params);
 		return result.length > 0;
 	}
+	async userHasGroup(userID, typeID) {
+		const sql = `SELECT id from groups WHERE owner = $user AND type = $type;`;
+		const params = { $user: userID, $type: typeID };
+		const result = await this.all(sql, params);
+		return result.length > 0;
+	}
 	rmGroup(id) {
 		const sql = `DELETE FROM groups WHERE id = $id;`;
 		const params = { $id: id };
@@ -270,6 +277,21 @@ module.exports = class Database {
 			WHERE
 				groupID = $group;`;
 		const params = { $group: group };
+		return this.all(sql, params);
+	}
+	getUserGroupMembership(userID) {
+		const sql = `
+			SELECT
+				groups.id as id,
+				groups.name as name,
+				groups.type as type,
+				groups.owner as owner
+			FROM
+				membership
+				INNER JOIN groups ON membership.groupID = groups.id
+			WHERE
+				membership.user = $id;`
+		const params = { $id: userID };
 		return this.all(sql, params);
 	}
 	async userIsInGroup(userID, groupID) {

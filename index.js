@@ -13,6 +13,14 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 // Create database connection
 const db = new Database('./data/groups.db');
 
+async function testDB(db) {
+	db.resetDatabase();
+	await db.loadTestData();
+	await new Promise(r => setTimeout(r, 1000));
+	console.log(await db.userHasGroup(1, 2));
+	console.log(await db.userHasGroup(1, 1));
+}
+
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
 	console.log('Ready!');
@@ -47,4 +55,6 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Login to Discord with your client's token
-client.login(token);
+// client.login(token);
+
+testDB(db);
