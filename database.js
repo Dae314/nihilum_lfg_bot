@@ -225,6 +225,11 @@ module.exports = class Database {
 		const sql = `SELECT * FROM groups;`;
 		return this.all(sql);
 	}
+	getAllGroupsbyType(typeID) {
+		const sql = `SELECT * FROM groups WHERE type = $type;`;
+		const params = { $type: typeID };
+		return this.all(sql, params);
+	}
 	getUserOwnedGroups(userID) {
 		const sql = `SELECT * FROM groups WHERE owner = $user;`;
 		const params = { $user: userID };

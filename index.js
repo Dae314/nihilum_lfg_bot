@@ -13,11 +13,12 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 // Create database connection
 const db = new Database('./data/groups.db');
 
+// debugging function to test various database functions
 async function testDB(db) {
 	db.resetDatabase();
 	await db.loadTestData();
 	await new Promise(r => setTimeout(r, 1000));
-	console.log(await db.getUserOwnedGroups(1));
+	console.log(await db.getAllGroupsbyType(2));
 }
 
 // When the client is ready, run this code (only once)
@@ -53,7 +54,8 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-// Login to Discord with your client's token
-// client.login(token);
+// debugging function call
+// testDB(db);
 
-testDB(db);
+// Login to Discord with your client's token
+client.login(token);
