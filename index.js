@@ -18,7 +18,7 @@ async function testDB(db) {
 	db.resetDatabase();
 	await db.loadTestData();
 	await new Promise(r => setTimeout(r, 1000));
-	console.log(await db.getAllGroupsbyType(2));
+	// console.log(await db.getAllGroupsbyType(2));
 }
 
 // When the client is ready, run this code (only once)
@@ -47,7 +47,7 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
 	try {
-		await command.execute(interaction);
+		await command.execute(interaction, db);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -55,7 +55,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 // debugging function call
-// testDB(db);
+testDB(db);
 
 // Login to Discord with your client's token
 client.login(token);
