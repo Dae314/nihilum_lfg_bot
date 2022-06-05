@@ -208,12 +208,12 @@ module.exports = class Database {
 	}
 
 	// group commands
-	addGroup(owner, type) {
+	addGroup(owner, type, name) {
 		const now = new Date();
-		const sql = `INSERT INTO groups (owner, type, createdAt)
+		const sql = `INSERT INTO groups (owner, type, name, createdAt)
 			VALUES
-				($owner, $type, $now);`;
-		const params = { $owner: owner, $type: type, $now: now.toISOString() };
+				($owner, $type, $name, $now);`;
+		const params = { $owner: owner, $type: type, $name: name, $now: now.toISOString() };
 		return this.run(sql, params);
 	}
 	getGroup(id) {
