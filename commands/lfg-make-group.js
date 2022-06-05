@@ -62,7 +62,7 @@ module.exports = {
 			await db.addGroup(userEntry.id, typeEntry.id, nameStr);
 			await interaction.reply(`Your group "${nameStr}" is ready to go!`);
 		} catch(err) {
-			await interaction.reply(`I'm sorry I couldn't make your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins.`);
+			await interaction.reply(`I'm sorry I couldn't make your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
 		}
 	},
 };
