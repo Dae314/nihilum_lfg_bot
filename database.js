@@ -294,6 +294,24 @@ module.exports = class Database {
 		const params = { $id: userID };
 		return this.all(sql, params);
 	}
+	async groupIsFull(groupID) {
+		// determine maximum members for the group
+		const maxSQL = `
+			SELECT
+				groupTypes.memberMax as memberMax
+			FROM
+				groups
+				INNER JOIN groupTypes ON groups.type = groupTypes.id
+			WHERE groups.id = $id;`;
+		const maxParams = { $id: groupID };
+		const maxResult = await this.get(maxSQL, maxParams);
+		const memberMax = maxResult.memberMax;
+
+		const countSQL = `SELECT id FROM membership WHERE groupID = $group;`;
+		const countParams = { $group: groupID };
+		const countResult = await this.all(countSQL, countParams);
+		return countResult.length >= memberMax;
+	}
 	async userIsInGroup(userID, groupID) {
 		const sql = `SELECT id FROM membership WHERE user = $user AND groupID = $group;`;
 		const params = { $user: userID, $group: groupID };
