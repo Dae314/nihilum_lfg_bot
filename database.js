@@ -225,6 +225,11 @@ module.exports = class Database {
 		const sql = `SELECT * FROM groups;`;
 		return this.all(sql);
 	}
+	getUserOwnedGroups(userID) {
+		const sql = `SELECT * FROM groups WHERE owner = $user;`;
+		const params = { $user: userID };
+		return this.all(sql, params);
+	}
 	async userIsGroupOwner(userID, groupID) {
 		const sql = `SELECT id FROM groups WHERE owner = $user AND id = $group;`;
 		const params = { $user: userID, $group: groupID };

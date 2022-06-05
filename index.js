@@ -17,13 +17,7 @@ async function testDB(db) {
 	db.resetDatabase();
 	await db.loadTestData();
 	await new Promise(r => setTimeout(r, 1000));
-	console.log(await db.getAllGroupTypes());
-	console.log(await db.getGroupMembers(1));
-	console.log(await db.groupIsFull(1));
-	console.log(await db.addMember(3, 1));
-	console.log(await db.addMember(4, 1));
-	console.log(await db.getGroupMembers(1));
-	console.log(await db.groupIsFull(1));
+	console.log(await db.getUserOwnedGroups(1));
 }
 
 // When the client is ready, run this code (only once)
