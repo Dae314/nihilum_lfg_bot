@@ -196,6 +196,11 @@ module.exports = class Database {
 		const sql = `SELECT * FROM groupTypes;`;
 		return this.all(sql);
 	}
+	updateGroupTypeMemberMax(id, max) {
+		const sql = `UPDATE groupTypes SET memberMax = $max WHERE id = $id;`;
+		const params = { $id: id, $max: max };
+		return this.all(sql, params);
+	}
 	rmGroupType(id) {
 		const sql = `DELETE FROM groupTypes WHERE id = $id;`;
 		const params = { $id: id };

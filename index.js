@@ -18,7 +18,10 @@ async function testDB(db) {
 	db.resetDatabase();
 	await db.loadTestData();
 	await new Promise(r => setTimeout(r, 1000));
-	// console.log(await db.getAllGroupsbyType(2));
+	console.log(await db.getAllGroupTypes());
+	await db.updateGroupTypeMemberMax(1, 50);
+	console.log(await db.getAllGroupTypes());
+	db.resetDatabase();
 }
 
 // When the client is ready, run this code (only once)
@@ -58,4 +61,4 @@ client.on('interactionCreate', async interaction => {
 testDB(db);
 
 // Login to Discord with your client's token
-client.login(token);
+// client.login(token);
