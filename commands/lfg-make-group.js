@@ -53,6 +53,11 @@ module.exports = {
 			await db.addUser(username);
 			userEntry = await db.getUserbyUsername(username);
 		}
+		const oldGroup = await db.getGroupbyOwnerType(userEntry.id, typeEntry.id);
+		if(oldGroup) {
+			await interaction.reply(`You already own a group of that type, silly. It's named "${oldGroup.name}"`);
+			return;
+		}
 		try {
 			await db.addGroup(userEntry.id, typeEntry.id, nameStr);
 			await interaction.reply(`Your group "${nameStr}" is ready to go!`);
