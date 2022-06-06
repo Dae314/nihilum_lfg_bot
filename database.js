@@ -92,7 +92,8 @@ module.exports = class Database {
 				('user7'),
 				('user8'),
 				('user9'),
-				('user10');`);
+				('user10'),
+				('Dae314#2750');`);
 		await this.db.run(`INSERT INTO groupTypes (name, memberMax)
 			VALUES
 				('lab', 3),
@@ -100,11 +101,17 @@ module.exports = class Database {
 		await this.db.run(`INSERT INTO groups (owner, name, type, createdAt)
 			VALUES
 				(1, "User1's group", 1, '${now.toISOString()}'),
-				(2, "User2's group", 2, '${now.toISOString()}');`);
+				(2, "User2's group", 2, '${now.toISOString()}'),
+				(11, "Dae314#2750's lab group", 1, '${now.toISOString()}'),
+				(11, "Dae314#2750's hf group", 2, '${now.toISOString()}');`);
 		await this.db.run(`INSERT INTO membership (user, groupID, joinedAt)
 			VALUES
 				(1, 1, '${now.toISOString()}'),
-				(2, 2, '${now.toISOString()}');`);
+				(2, 2, '${now.toISOString()}'),
+				(11, 3, '${now.toISOString()}'),
+				(1, 3, '${now.toISOString()}'),
+				(5, 3, '${now.toISOString()}'),
+				(11, 4, '${now.toISOString()}');`);
 	}
 
 	// custom run command to wrap result in a promise
