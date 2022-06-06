@@ -11,10 +11,8 @@ module.exports = {
 				.setDescription('The type of group you want to see')
 				.setRequired(true)),
 	async execute(interaction, db) {
-		const username = interaction.member.user.tag;
 		const typeStr = interaction.options.getString('type');
 		const typeEntry = await db.getGroupTypebyName(typeStr);
-		let userEntry = await db.getUserbyUsername(username);
 		if(!typeEntry) {
 			const validTypes = await db.getAllGroupTypes();
 			let validTypesStr = '';
@@ -24,10 +22,6 @@ module.exports = {
 			validTypesStr = validTypesStr.slice(0, -2);
 			await interaction.reply({ content: `I've never heard of the game type "${typeStr}". Maybe try one of these: ${validTypesStr}`, ephemeral: true });
 			return;
-		}
-		if(!userEntry) {
-			await db.addUser(username);
-			userEntry = await db.getUserbyUsername(username);
 		}
 		try {
 			const results = await db.getAllGroupsbyType(typeEntry.id);
@@ -45,6 +39,8 @@ module.exports = {
 						.setAuthor({ name: owner.username })
 						.addFields(
 							{ name: 'members', value: membersStr },
+							{ name: 'count', value: `${members.length}/${typeEntry.memberMax}`, inline: true },
+							{ name: 'type', value: typeEntry.name, inline: true },
 						)
 						.setTimestamp(group.createdAt)
 					)
@@ -63,6 +59,7 @@ module.exports = {
 			paginationEmbed(interaction, pageResults, buttonList);
 		} catch(err) {
 			await interaction.reply(`Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			console.log(err);
 		}
 	},
 };
