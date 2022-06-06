@@ -31,6 +31,7 @@ module.exports = {
 						{ name: 'members', value: membersStr },
 						{ name: 'count', value: `${members.length}/${typeEntry.memberMax}`, inline: true },
 						{ name: 'type', value: typeEntry.name, inline: true },
+						{ name: 'id', value: `${group.id}`, inline: true },
 					)
 					.setTimestamp(group.createdAt)
 				)
