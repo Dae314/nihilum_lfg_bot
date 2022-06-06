@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageButton } = require('discord.js');
-const paginationEmbed = require('discordjs-button-pagination');
+const { MessageEmbed } = require('discord.js');
+const DiscordPagination = require('../util/DiscordPagination.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -47,17 +47,7 @@ module.exports = {
 					)
 				}
 			}
-			const buttonList = [
-				new MessageButton()
-					.setCustomId('prevButton')
-					.setLabel('Previous')
-					.setStyle('DANGER'),
-				new MessageButton()
-					.setCustomId('nextButton')
-					.setLabel('Next')
-					.setStyle('SUCCESS'),
-			]
-			paginationEmbed(interaction, pageResults, buttonList);
+			DiscordPagination(interaction, pageResults);
 		} catch(err) {
 			await interaction.reply(`Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
 			console.log(err);
