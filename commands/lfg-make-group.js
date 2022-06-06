@@ -19,12 +19,9 @@ module.exports = {
 		const typeEntry = await db.getGroupTypebyName(typeStr);
 		let userEntry = await db.getUserbyUsername(username);
 		if(!typeEntry) {
-			const validTypes = await db.getAllGroupTypes();
-			let validTypesStr = '';
-			for(const entry of validTypes) {
-				validTypesStr = `${entry.name}, ${validTypesStr}`;
-			}
-			validTypesStr = validTypesStr.slice(0, -2);
+			let validTypes = await db.getAllGroupTypes();
+			validTypes = validTypes.map(e => e.name);
+			const validTypesStr = validTypes.join(', ');
 			await interaction.reply({ content: `I've never heard of the game type "${typeStr}". Maybe try one of these: ${validTypesStr}`, ephemeral: true });
 			return;
 		}
