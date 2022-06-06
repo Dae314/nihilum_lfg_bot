@@ -43,9 +43,9 @@ for (const file of commandFiles) {
 }
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	if (!interaction.isCommand() && !interaction.isAutocomplete()) return;
 
-	if (interaction.commandName === 'autocomplete') {
+	if (interaction.isAutocomplete()) {
 		const focusedOption = interaction.options.getFocused(true);
 		let choices;
 
@@ -62,6 +62,7 @@ client.on('interactionCreate', async interaction => {
 		const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
 		await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
 	} else {
+		// assume interaction is a command
 		const command = client.commands.get(interaction.commandName);
 
 		if (!command) return;

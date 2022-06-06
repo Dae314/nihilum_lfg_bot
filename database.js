@@ -231,7 +231,7 @@ module.exports = class Database {
 		return this.all(sql);
 	}
 	getAllGroupsbyType(typeID) {
-		const sql = `SELECT * FROM groups WHERE type = $type;`;
+		const sql = `SELECT * FROM groups WHERE type = $type ORDER BY createdAt DESC;`;
 		const params = { $type: typeID };
 		return this.all(sql, params);
 	}
