@@ -68,7 +68,7 @@ client.on('interactionCreate', async interaction => {
 		if (!command) return;
 
 		try {
-			await command.execute(interaction, db);
+			await command.execute(interaction, db, client);
 		} catch (error) {
 			console.error(error);
 			await interaction.reply({ content: 'I broke something, sorry ●︿● you should probably tell the Admins.', ephemeral: true });

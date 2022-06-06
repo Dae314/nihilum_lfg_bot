@@ -13,7 +13,7 @@ module.exports = {
 			option.setName('name')
 				.setDescription('The name for your group')
 				.setRequired(false)),
-	async execute(interaction, db) {
+	async execute(interaction, db, client) {
 		const username = interaction.member.user.tag;
 		const typeStr = interaction.options.getString('type');
 		let nameStr = interaction.options.getString('name');

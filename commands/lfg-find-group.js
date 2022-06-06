@@ -11,7 +11,7 @@ module.exports = {
 				.setDescription('The type of group you want to see')
 				.setRequired(true)
 				.setAutocomplete(true)),
-	async execute(interaction, db) {
+	async execute(interaction, db, client) {
 		const typeStr = interaction.options.getString('type');
 		const typeEntry = await db.getGroupTypebyName(typeStr);
 		if(!typeEntry) {

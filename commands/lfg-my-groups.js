@@ -6,7 +6,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('lfg-my-groups')
 		.setDescription('Show groups that you are a part of'),
-	async execute(interaction, db) {
+	async execute(interaction, db, client) {
 		const username = interaction.member.user.tag;
 		let userEntry = await db.getUserbyUsername(username);
 		if(!userEntry) {
