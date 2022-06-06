@@ -9,7 +9,8 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('type')
 				.setDescription('The type of group you want to see')
-				.setRequired(true)),
+				.setRequired(true)
+				.setAutocomplete(true)),
 	async execute(interaction, db) {
 		const typeStr = interaction.options.getString('type');
 		const typeEntry = await db.getGroupTypebyName(typeStr);

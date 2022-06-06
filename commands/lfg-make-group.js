@@ -7,7 +7,8 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('type')
 				.setDescription('The game mode for your group')
-				.setRequired(true))
+				.setRequired(true)
+				.setAutocomplete(true))
 		.addStringOption(option =>
 			option.setName('name')
 				.setDescription('The name for your group')

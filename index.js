@@ -45,15 +45,33 @@ for (const file of commandFiles) {
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
-	const command = client.commands.get(interaction.commandName);
+	if (interaction.commandName === 'autocomplete') {
+		const focusedOption = interaction.options.getFocused(true);
+		let choices;
 
-	if (!command) return;
+		switch(focusedOption.name) {
+			case 'type':
+				const validTypes = await db.getAllGroupTypes();
+				choices = validTypes.map(e => e.name);
+				break;
+			default:
+				await interaction.respond([]);
+				return;
+		}
 
-	try {
-		await command.execute(interaction, db);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
+		await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+	} else {
+		const command = client.commands.get(interaction.commandName);
+
+		if (!command) return;
+
+		try {
+			await command.execute(interaction, db);
+		} catch (error) {
+			console.error(error);
+			await interaction.reply({ content: 'I broke something, sorry ●︿● you should probably tell the Admins.', ephemeral: true });
+		}
 	}
 });
 
