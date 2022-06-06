@@ -56,7 +56,8 @@ module.exports = {
 			return;
 		}
 		try {
-			await db.addGroup(userEntry.id, typeEntry.id, nameStr);
+			const groupID = await db.addGroup(userEntry.id, typeEntry.id, nameStr);
+			await db.addMember(userEntry.id, groupID);
 			await interaction.reply(`Your group "${nameStr}" is ready to go!`);
 		} catch(err) {
 			await interaction.reply(`I'm sorry I couldn't make your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
