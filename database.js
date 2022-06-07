@@ -38,7 +38,8 @@ module.exports = class Database {
 		this.db.exec(`
 		CREATE TABLE IF NOT EXISTS users (
 			id INTEGER PRIMARY KEY,
-			username TEXT UNIQUE NOT NULL
+			username TEXT UNIQUE NOT NULL,
+			discordID TEXT UNIQUE NOT NULL
 		);
 		CREATE TABLE IF NOT EXISTS groupTypes (
 			id INTEGER PRIMARY KEY,
@@ -81,19 +82,19 @@ module.exports = class Database {
 	// insert test data into the database
 	async loadTestData() {
 		const now = new Date();
-		await this.db.run(`INSERT INTO users (username)
+		await this.db.run(`INSERT INTO users (username, discordID)
 			VALUES
-				('user1'),
-				('user2'),
-				('user3'),
-				('user4'),
-				('user5'),
-				('user6'),
-				('user7'),
-				('user8'),
-				('user9'),
-				('user10'),
-				('Dae314#2750');`);
+				('user1', '1'),
+				('user2', '2'),
+				('user3', '3'),
+				('user4', '4'),
+				('user5', '5'),
+				('user6', '6'),
+				('user7', '7'),
+				('user8', '8'),
+				('user9', '9'),
+				('user10', '10'),
+				('Dae314#2750', '166800613823348737');`);
 		await this.db.run(`INSERT INTO groupTypes (name, memberMax)
 			VALUES
 				('lab', 3),
@@ -158,9 +159,9 @@ module.exports = class Database {
 	}
 
 	// user commands
-	addUser(username) {
-		const sql = `INSERT INTO users (username) VALUES ($username);`;
-		const params = { $username: username };
+	addUser(username, discordID) {
+		const sql = `INSERT INTO users (username, discordID) VALUES ($username, $discordID);`;
+		const params = { $username: username, $discordID: discordID };
 		return this.run(sql, params);
 	}
 	getUser(id) {

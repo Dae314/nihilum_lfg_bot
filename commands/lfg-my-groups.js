@@ -8,9 +8,10 @@ module.exports = {
 		.setDescription('Show groups that you are a part of'),
 	async execute(interaction, db, client) {
 		const username = interaction.member.user.tag;
+		const userID = interaction.member.user.id;
 		let userEntry = await db.getUserbyUsername(username);
 		if(!userEntry) {
-			await db.addUser(username);
+			await db.addUser(username, userID);
 			userEntry = await db.getUserbyUsername(username);
 		}
 		try {

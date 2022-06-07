@@ -15,6 +15,7 @@ module.exports = {
 				.setRequired(false)),
 	async execute(interaction, db, client) {
 		const username = interaction.member.user.tag;
+		const userID = interaction.member.user.id;
 		const typeStr = interaction.options.getString('type');
 		let nameStr = interaction.options.getString('name');
 		const typeEntry = await db.getGroupTypebyName(typeStr);
@@ -48,7 +49,7 @@ module.exports = {
 			nameStr = `${username}'s ${adjectives[adjIdx]} ${nouns[nounIdx]}`;
 		}
 		if(!userEntry) {
-			await db.addUser(username);
+			await db.addUser(username, userID);
 			userEntry = await db.getUserbyUsername(username);
 		}
 		const oldGroup = await db.getGroupbyOwnerType(userEntry.id, typeEntry.id);

@@ -14,13 +14,14 @@ module.exports = {
 				.setRequired(true)),
 	async execute(interaction, db, client) {
 		const ownerName = interaction.member.user.tag;
+		const ownerID = interaction.member.user.id;
 		let ownerEntry = await db.getUserbyUsername(ownerName);
 		const groupID = interaction.options.getInteger('group');
 		const groupEntry = await db.getGroup(groupID);
 		const targetUserObj = interaction.options.getUser('user');
 		let targetUserEntry = await db.getUserbyUsername(targetUserObj.tag);
 		if(!ownerEntry) {
-			await db.addUser(ownerName);
+			await db.addUser(ownerName, ownerID);
 			ownerEntry = await db.getUserbyUsername(ownerName);
 		}
 		if(!groupEntry) {
@@ -28,7 +29,7 @@ module.exports = {
 			return;
 		}
 		if(!targetUserEntry) {
-			await db.addUser(targetUserObj.tag);
+			await db.addUser(targetUserObj.tag, targetUserObj.id);
 			targetUserEntry = await db.getUserbyUsername(targetUserObj.tag);
 		}
 		const isOwner = await db.userIsGroupOwner(ownerEntry.id, groupEntry.id);
