@@ -109,6 +109,7 @@ module.exports = class Database {
 			VALUES
 				(1, 1, '${now.toISOString()}'),
 				(2, 2, '${now.toISOString()}'),
+				(11, 2, '${now.toISOString()}'),
 				(11, 3, '${now.toISOString()}'),
 				(1, 3, '${now.toISOString()}'),
 				(5, 3, '${now.toISOString()}'),
@@ -293,7 +294,8 @@ module.exports = class Database {
 		const sql = `
 			SELECT
 				users.id as id,
-				users.username as username
+				users.username as username,
+				users.discordID as discordID
 			FROM
 				membership
 				INNER JOIN users ON membership.user = users.id
