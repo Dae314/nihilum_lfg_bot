@@ -18,7 +18,7 @@ module.exports = {
 		let ownerEntry = await db.getUserbyUsername(ownerName);
 		const groupID = interaction.options.getInteger('group');
 		const groupEntry = await db.getGroup(groupID);
-		const targetUsername = interaction.options.getString('user');
+		const targetUsername = interaction.options.getString('user').toLowerCase();
 		let targetUserEntry = await db.getUserbyUsername(targetUsername);
 		if(!ownerEntry) {
 			await db.addUser(ownerName, ownerID);
