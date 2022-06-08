@@ -5,10 +5,10 @@ const DiscordConfirm = require('../util/DiscordConfirm.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('lfg-admin-delete-user')
-		.setDescription('Admin command: delete a user')
+		.setDescription('Admin command: delete a user as well as all of their associated groups and memberships')
 		.addIntegerOption(option =>
 			option.setName('user')
-				.setDescription('The ID of the group that will be deleted')
+				.setDescription('The ID of the user who will be deleted')
 				.setRequired(true)),
 	async execute(interaction, db, client) {
 		const isAdmin = interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR);
@@ -23,7 +23,7 @@ module.exports = {
 			return;
 		}
 		try {
-			const userPrompt = await DiscordConfirm(interaction, `Are you sure you want to delete "${userEntry.username}"?`);
+			const userPrompt = await DiscordConfirm(interaction, `Are you sure you want to delete "${userEntry.username}"? All of their groups and memberships will also be deleted.`);
 			if(userPrompt.confirmed) {
 				const ownedGroups = await db.getUserOwnedGroups(userEntry.id);
 				// first delete all groups that the user owns
