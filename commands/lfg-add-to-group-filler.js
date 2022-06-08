@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('lfg-add-to-group-filler')
-		.setDescription('Add a filler (non-server member) to your group')
+		.setDescription('Add a filler (non-server member) to your group (can only be run by group owner)')
 		.addIntegerOption(option =>
 			option.setName('group')
 				.setDescription('The ID of the group that will be modified')
