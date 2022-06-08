@@ -30,28 +30,24 @@ module.exports = {
 		const isOwner = await db.userIsGroupOwner(userEntry.id, groupEntry.id);
 		try {
 			if(isOwner) {
-				await DiscordConfirm(interaction,
-					`Are you sure you want to leave "${groupEntry.name}"? Since you're the group owner, the whole group will be disbanded.`,
-					async (buttonInteraction) => {
-						const members = await db.getGroupMembers(groupEntry.id);
-						for(const member of members) {
-							await db.rmMember(member.id, groupEntry.id);
-						}
-						await db.rmGroup(groupEntry.id);
-						await buttonInteraction.update({ content: 'Your group was successfully closed!', components: [], ephemeral: true });
+				const userPrompt = await DiscordConfirm(interaction, `Are you sure you want to leave "${groupEntry.name}"? Since you're the group owner, the whole group will be disbanded.`);
+				if(userPrompt.confirmed) {
+					const members = await db.getGroupMembers(groupEntry.id);
+					for(const member of members) {
+						await db.rmMember(member.id, groupEntry.id);
 					}
-				);
+					await db.rmGroup(groupEntry.id);
+					await userPrompt.interaction.editReply({ content: 'Your group was successfully closed!', components: [], ephemeral: true });
+				}
 			} else {
-				await DiscordConfirm(interaction,
-					`Are you sure you want to leave "${groupEntry.name}"?`,
-					async (buttonInteraction) => {
-						await db.rmMember(userEntry.id, groupEntry.id);
-						await buttonInteraction.update({ content: 'You have left the group!', components: [], ephemeral: true });
-					}
-				);
+				const userPrompt = await DiscordConfirm(interaction, `Are you sure you want to leave "${groupEntry.name}"?`);
+				if(userPrompt.confirmed) {
+					await db.rmMember(userEntry.id, groupEntry.id);
+					await userPrompt.interaction.editReply({ content: 'You have left the group!', components: [], ephemeral: true });
+				}
 			}
 		} catch(err) {
-			await interaction.reply(`Something went wrong leaving the group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			await interaction.editReply({content: `Something went wrong leaving the group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, components: [], ephemeral: true});
 			console.log(err);
 		}
 	},

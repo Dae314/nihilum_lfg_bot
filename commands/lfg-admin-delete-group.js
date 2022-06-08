@@ -23,19 +23,17 @@ module.exports = {
 			return;
 		}
 		try {
-			await DiscordConfirm(interaction,
-				`Are you sure you want to delete "${groupEntry.name}"?`,
-				async (buttonInteraction) => {
-					const members = await db.getGroupMembers(groupEntry.id);
-					for(const member of members) {
-						await db.rmMember(member.id, groupEntry.id);
-					}
-					await db.rmGroup(groupEntry.id);
-					await buttonInteraction.update({content: `That group is gone now!`, components: [], ephemeral: true});
+			const userPrompt = await DiscordConfirm(interaction, `Are you sure you want to delete "${groupEntry.name}"?`);
+			if(userPrompt.confirmed) {
+				const members = await db.getGroupMembers(groupEntry.id);
+				for(const member of members) {
+					await db.rmMember(member.id, groupEntry.id);
 				}
-			)
+				await db.rmGroup(groupEntry.id);
+				await userPrompt.interaction.editReply({content: `That group is gone now!`, components: [], ephemeral: true});
+			}
 		} catch(err) {
-			await interaction.reply({content: `I wasn't able to delete that group ๐·°(⋟﹏⋞)°·๐ Check the console log.`, ephemeral: true});
+			await interaction.editReply({content: `I wasn't able to delete that group ๐·°(⋟﹏⋞)°·๐ Check the console log.`, content: [], ephemeral: true});
 			console.log(err);
 		}
 	},
