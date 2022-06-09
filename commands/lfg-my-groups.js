@@ -38,12 +38,12 @@ module.exports = {
 				)
 			}
 			if(pageResults.length === 0) {
-				await interaction.reply(`Looks like you're not in any groups. Go find some with \`/lfg-find-group\`!`);
+				await interaction.reply({content: `Looks like you're not in any groups. Go find some with \`/lfg-find-group\`!`, ephemeral: true});
 			} else {
 				DiscordPagination(interaction, pageResults);
 			}
 		} catch(err) {
-			await interaction.reply(`Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			await interaction.reply({content: `Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);
 		}
 	},
