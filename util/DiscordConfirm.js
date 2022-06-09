@@ -10,23 +10,27 @@ module.exports = function DiscordConfirm(interaction, confirmText, timeout=15000
 				.setStyle('DANGER'),
 		);
 
-		await interaction.reply({ content: confirmText, components: [row], ephemeral: true });
-		
-		const confirmTimeout = setTimeout(async () => {
-			await interaction.editReply({content: 'No response means no work! ╰(▔∀▔)╯', components: [], ephemeral: true});
-			resolve({ confirmed: false, interaction: interaction });
-		}, timeout);
+		// has the interaction already been deferred? If not, defer the reply.
+		if (!interaction.deferred) await interaction.deferReply({ephemeral: true});
+
+		const messageObj = await interaction.editReply({ content: confirmText, components: [row], ephemeral: true });
 
 		const filter = (buttonInteraction) => {
 			return interaction.user.id === buttonInteraction.user.id;
 		}
 
-		const collector = interaction.channel.createMessageComponentCollector({filter, max: 1, time: timeout});
+		const collector = await messageObj.createMessageComponentCollector({filter, max: 1, time: timeout});
 
 		collector.on('collect', async buttonInteraction => {
 			if(buttonInteraction.customId === 'confirmButton') {
-				clearTimeout(confirmTimeout);
 				resolve({confirmed: true, interaction: interaction});
+			}
+		});
+
+		collector.on("end", (_, reason) => {
+			if (reason === 'time') {
+				interaction.editReply({content: 'No response means no work! ╰(▔∀▔)╯', components: [], ephemeral: true});
+				resolve({ confirmed: false, interaction: interaction });
 			}
 		});
 	});

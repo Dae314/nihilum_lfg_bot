@@ -13,42 +13,42 @@ module.exports = async function DiscordPagination(interaction, pages, timeout=12
 				.setStyle('SUCCESS'),
 		);
 
+	//has the interaction already been deferred? If not, defer the reply.
+	if (!interaction.deferred) await interaction.deferReply();
+
 	let visibleItem = 0;
 
 	let page = pages[visibleItem].setFooter({ text: `${visibleItem + 1}/${pages.length}`});
-	await interaction.reply({ embeds: [page], components: [row] });
-		
-	let interactTimeout = setTimeout(async () => {
-		await interaction.editReply({components: []});
-	}, timeout);
+	const messageObj = await interaction.editReply({ embeds: [page], components: [row], fetchReply: true, });
 
 	const filter = (buttonInteraction) => {
 		return interaction.user.id === buttonInteraction.user.id;
 	}
 
-	const collector = interaction.channel.createMessageComponentCollector({filter, time: timeout});
+	const collector = await messageObj.createMessageComponentCollector({filter, time: timeout});
 
 	collector.on('collect', async buttonInteraction => {
-		if(buttonInteraction.customId === 'prevButton') {
-			await buttonInteraction.deferUpdate();
-			clearTimeout(interactTimeout);
-			collector.resetTimer();
-			interactTimeout = setTimeout(async () => {
-				await interaction.editReply({components: []});
-			}, timeout);
-			if(--visibleItem < 0) visibleItem = pages.length - 1;
-			let page = pages[visibleItem].setFooter({ text: `${visibleItem + 1}/${pages.length}`});
-			await buttonInteraction.editReply({ embeds: [page], components: [row], ephemeral: true});
-		} else if(buttonInteraction.customId === 'nextButton') {
-			await buttonInteraction.deferUpdate();
-			clearTimeout(interactTimeout);
-			collector.resetTimer();
-			interactTimeout = setTimeout(async () => {
-				await interaction.editReply({components: []});
-			}, timeout);
-			if(++visibleItem >= pages.length) visibleItem = 0;
-			let page = pages[visibleItem].setFooter({ text: `${visibleItem + 1}/${pages.length}`});
-			await buttonInteraction.editReply({ embeds: [page], components: [row], ephemeral: true});
+		switch(buttonInteraction.customId) {
+			case 'prevButton':
+				if(--visibleItem < 0) visibleItem = pages.length - 1;
+				break;
+			case 'nextButton':
+				if(++visibleItem >= pages.length) visibleItem = 0;
+				break;
+			defualt:
+				console.log('Invalid button press detected.');
+		}
+		const page = pages[visibleItem].setFooter({ text: `${visibleItem + 1}/${pages.length}`});
+		if(!buttonInteraction.deferred) await buttonInteraction.deferUpdate();
+		collector.resetTimer();
+		await buttonInteraction.editReply({ embeds: [page], components: [row], ephemeral: true});
+	});
+
+	collector.on("end", (_, reason) => {
+		if (reason !== "messageDelete") {
+			messageObj.edit({components: [],});
 		}
 	});
+
+	return messageObj;
 }
