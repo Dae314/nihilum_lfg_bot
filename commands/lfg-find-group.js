@@ -50,7 +50,7 @@ module.exports = {
 			}
 			DiscordPagination(interaction, pageResults);
 		} catch(err) {
-			await interaction.reply(`Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			await interaction.reply({content: `Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);
 		}
 	},
