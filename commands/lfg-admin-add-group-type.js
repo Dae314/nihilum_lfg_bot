@@ -14,6 +14,7 @@ module.exports = {
 				.setDescription('The max number of members for this type')
 				.setRequired(true)),
 	async execute(interaction, db, client) {
+		const maxNameLen = 25;
 		const isAdmin = interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR);
 		const name = interaction.options.getString('name');
 		const memberMax = interaction.options.getInteger('max');
@@ -28,6 +29,14 @@ module.exports = {
 		}
 		if(memberMax < 2) {
 			await interaction.reply({content: `Oi, groups types gotta be at least 2 members ya hear!`, ephemeral: true});
+			return;
+		}
+		if(!name) {
+			interaction.reply(`You must give the group type a name! ☆⌒(> _ <)`);
+			return;
+		}
+		if(name.length > maxNameLen) {
+			interaction.reply(`I'm never going to remember that! Keep the name under ${maxNameLen} characters. ☆⌒(> _ <)`);
 			return;
 		}
 		try {
