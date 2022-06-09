@@ -18,7 +18,7 @@ module.exports = {
 		const isAdmin = interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR);
 		const groupID = interaction.options.getInteger('group');
 		const groupEntry = await db.getGroup(groupID);
-		const userID = interaction.options.getInteger('group');
+		const userID = interaction.options.getInteger('user');
 		const userEntry = await db.getUser(userID);
 		if(!isAdmin) {
 			await interaction.reply(`No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`);
