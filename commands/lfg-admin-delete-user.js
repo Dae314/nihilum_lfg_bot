@@ -15,7 +15,7 @@ module.exports = {
 		const userID = interaction.options.getInteger('user');
 		const userEntry = await db.getUser(userID);
 		if(!isAdmin) {
-			await interaction.reply(`No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`);
+			await interaction.reply({content: `No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`, ephemeral: true});
 			return;
 		}
 		if(!userEntry) {

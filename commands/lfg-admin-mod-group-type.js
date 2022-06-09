@@ -18,7 +18,7 @@ module.exports = {
 		const groupTypeID = interaction.options.getInteger('id');
 		const newMemberMax = interaction.options.getInteger('max');
 		if(!isAdmin) {
-			await interaction.reply(`No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`);
+			await interaction.reply({content: `No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`, ephemeral: true});
 			return;
 		}
 		const groupTypeEntry = await db.getGroupType(groupTypeID);

@@ -15,7 +15,7 @@ module.exports = {
 		const groupID = interaction.options.getInteger('group');
 		const groupEntry = await db.getGroup(groupID);
 		if(!isAdmin) {
-			await interaction.reply(`No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`);
+			await interaction.reply({content: `No way you just tried to run an admin command without being an admin, you naughty user you! (╬ Ò ‸ Ó)`, ephemeral: true});
 			return;
 		}
 		if(!groupEntry) {
