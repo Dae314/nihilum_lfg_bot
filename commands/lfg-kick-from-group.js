@@ -38,6 +38,11 @@ module.exports = {
 			await interaction.reply(`You can't kick someone from a group you didn't make! ☆⌒(> _ <)`);
 			return;
 		}
+		const targetIsOwner = await db.userIsGroupOwner(targetUserEntry.id, groupEntry.id);
+		if(targetIsOwner) {
+			await interaction.reply(`Woah woah hold up. You can't kick the group owner. YOU ARE THE GROUP OWNER! If you really want to leave, just use \`/lfg-leave-group group:${groupEntry.id}\``);
+			return;
+		}
 		const inGroup = await db.userIsInGroup(targetUserEntry.id, groupEntry.id);
 		if(!inGroup) {
 			await interaction.reply(`Well the good news is... ${targetUserEntry.username} isn't in your group! So... (─‿‿─)`);
