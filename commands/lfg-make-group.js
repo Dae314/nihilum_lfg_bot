@@ -47,10 +47,10 @@ module.exports = {
 				'teammates',
 			];
 			const nounIdx = Math.floor(Math.random() * nouns.length);
-			nameStr = `${username}'s ${adjectives[adjIdx]} ${nouns[nounIdx]}`;
+			nameStr = `${username}'s ${adjectives[adjIdx]} ${nouns[nounIdx]} (${typeEntry.name})`;
 		}
 		if(nameStr.length > maxNameLen) {
-			interaction.reply(`I'm never going to remember that! Keep the name under ${maxNameLen} characters. ☆⌒(> _ <)`);
+			interaction.reply({content: `I'm never going to remember that! Keep the name under ${maxNameLen} characters. ☆⌒(> _ <)`, ephemeral: true});
 			return;
 		}
 		if(!userEntry) {
@@ -59,7 +59,7 @@ module.exports = {
 		}
 		const oldGroup = await db.getGroupbyOwnerType(userEntry.id, typeEntry.id);
 		if(oldGroup) {
-			await interaction.reply(`You already own a group of that type, silly. It's named "${oldGroup.name}"`);
+			await interaction.reply({content: `You already own a group of that type, silly. It's named "${oldGroup.name}"`, ephemeral: true});
 			return;
 		}
 		try {
@@ -67,7 +67,7 @@ module.exports = {
 			await db.addMember(userEntry.id, groupID.id);
 			await interaction.reply(`Your group "${nameStr}" is ready to go!`);
 		} catch(err) {
-			await interaction.reply(`I'm sorry I couldn't make your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			await interaction.reply({content: `I'm sorry I couldn't make your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);
 		}
 	},
