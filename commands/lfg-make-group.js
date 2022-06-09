@@ -14,6 +14,7 @@ module.exports = {
 				.setDescription('The name for your group')
 				.setRequired(false)),
 	async execute(interaction, db, client) {
+		const maxNameLen = 140;
 		const username = interaction.member.user.tag;
 		const userID = interaction.member.user.id;
 		const typeStr = interaction.options.getString('type');
@@ -47,6 +48,10 @@ module.exports = {
 			];
 			const nounIdx = Math.floor(Math.random() * nouns.length);
 			nameStr = `${username}'s ${adjectives[adjIdx]} ${nouns[nounIdx]}`;
+		}
+		if(nameStr.length > maxNameLen) {
+			interaction.reply(`I'm never going to remember that! Keep the name under ${maxNameLen} characters. ☆⌒(> _ <)`);
+			return;
 		}
 		if(!userEntry) {
 			await db.addUser(username, userID);
