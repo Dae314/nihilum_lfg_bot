@@ -26,6 +26,10 @@ module.exports = {
 			await interaction.reply({content: `That group type already exists!`, ephemeral: true});
 			return;
 		}
+		if(memberMax < 2) {
+			await interaction.reply({content: `Oi, groups types gotta be at least 2 members ya hear!`, ephemeral: true});
+			return;
+		}
 		try {
 			await db.addGroupType(name, memberMax);
 			await interaction.reply({content: `New group type "${name}" added!`, components: [], ephemeral: true});
