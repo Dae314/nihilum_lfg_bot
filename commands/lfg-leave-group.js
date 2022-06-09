@@ -19,12 +19,12 @@ module.exports = {
 			userEntry = await db.getUserbyUsername(username);
 		}
 		if(!groupEntry) {
-			await interaction.reply(`Sorry I couldn't find that group anywhere. ┐(￣ヘ￣;)┌`);
+			await interaction.reply({content: `Sorry I couldn't find that group anywhere. ┐(￣ヘ￣;)┌`, ephemeral: true});
 			return;
 		}
 		const inGroup = await db.userIsInGroup(userEntry.id, groupEntry.id);
 		if(!inGroup) {
-			await interaction.reply(`Good news! You're not in the group you're trying to leave, so I don't have to do anything! ╰(▔∀▔)╯`);
+			await interaction.reply({content: `Good news! You're not in the group you're trying to leave, so I don't have to do anything! ╰(▔∀▔)╯`, ephemeral: true});
 			return;
 		}
 		const isOwner = await db.userIsGroupOwner(userEntry.id, groupEntry.id);
