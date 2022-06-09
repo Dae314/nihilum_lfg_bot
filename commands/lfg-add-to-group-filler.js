@@ -26,16 +26,16 @@ module.exports = {
 			ownerEntry = await db.getUserbyUsername(ownerName);
 		}
 		if(!groupEntry) {
-			await interaction.reply(`Sorry I couldn't find that group anywhere. ┐(￣ヘ￣;)┌`);
+			await interaction.reply({content: `Sorry I couldn't find that group anywhere. ┐(￣ヘ￣;)┌`, ephemeral: true});
 			return;
 		}
 		if(!targetUserEntry) {
 			if(!targetUsername) {
-				interaction.reply(`You must give the filler a name! ☆⌒(> _ <)`);
+				interaction.reply({content: `You must give the filler a name! ☆⌒(> _ <)`, ephemeral: true});
 				return;
 			}
 			if(targetUsername.length > maxUsernameLen) {
-				interaction.reply(`I'm never going to remember that! Keep the username under ${maxUsernameLen} characters. ☆⌒(> _ <)`);
+				interaction.reply({content: `I'm never going to remember that! Keep the username under ${maxUsernameLen} characters. ☆⌒(> _ <)`, ephemeral: true});
 				return;
 			}
 			await db.addUser(targetUsername, 'filler');
@@ -43,24 +43,24 @@ module.exports = {
 		}
 		const isOwner = await db.userIsGroupOwner(ownerEntry.id, groupEntry.id);
 		if(!isOwner) {
-			await interaction.reply(`You can't add someone to a group you didn't make! ☆⌒(> _ <)`);
+			await interaction.reply({content: `You can't add someone to a group you didn't make! ☆⌒(> _ <)`, ephemeral: true});
 			return;
 		}
 		const isFull = await db.groupIsFull(groupEntry.id);
 		if(isFull) {
-			await interaction.reply(`Sorry, there's no more space in this group! (｡•́︿•̀｡)`);
+			await interaction.reply({content: `Sorry, there's no more space in this group! (｡•́︿•̀｡)`, ephemeral: true});
 			return;
 		}
 		const inGroup = await db.userIsInGroup(targetUserEntry.id, groupEntry.id);
 		if(inGroup) {
-			await interaction.reply(`You can't add someone to the same group twice! Unless they're a clone... (O_O;)`);
+			await interaction.reply({content: `You can't add someone to the same group twice! Unless they're a clone... (O_O;)`, ephemeral: true});
 			return;
 		}
 		try {
 			await db.addMember(targetUserEntry.id, groupEntry.id);
 			await interaction.reply(`Bam! ${targetUserEntry.username} is now in "${groupEntry.name}"!`);
 		} catch(err) {
-			await interaction.reply(`Something went wrong when I tried to add that user to your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`);
+			await interaction.reply({content: `Something went wrong when I tried to add that user to your group ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);
 		}
 	},
