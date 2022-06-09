@@ -13,6 +13,7 @@ module.exports = {
 				.setDescription('The username to add to the group')
 				.setRequired(true)),
 	async execute(interaction, db, client) {
+		const maxUsernameLen = 25;
 		const ownerName = interaction.member.user.tag;
 		const ownerID = interaction.member.user.id;
 		let ownerEntry = await db.getUserbyUsername(ownerName);
@@ -29,6 +30,14 @@ module.exports = {
 			return;
 		}
 		if(!targetUserEntry) {
+			if(!targetUsername) {
+				interaction.reply(`You must give the filler a name! ☆⌒(> _ <)`);
+				return;
+			}
+			if(targetUsername.length > maxUsernameLen) {
+				interaction.reply(`I'm never going to remember that! Keep the username under ${maxUsernameLen} characters. ☆⌒(> _ <)`);
+				return;
+			}
 			await db.addUser(targetUsername, 'filler');
 			targetUserEntry = await db.getUserbyUsername(targetUsername);
 		}
