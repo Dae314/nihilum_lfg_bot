@@ -1,6 +1,6 @@
 {
 	"name": "nihilum_lfg_bot",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Discord LFG bot for Nihilum guilds in AFK Arena",
 	"main": "index.js",
 	"scripts": {

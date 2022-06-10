@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const config = require('../package.json');
+const version = config.version;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,7 +21,8 @@ module.exports = {
 				{ name: 'Kick someone outside this server from a group (group owner only)', value: '\`/lfg-kick-from-group-filler group:<group ID> user:<username>\`' },
 				{ name: 'See what types of groups there are', value: '\`/lfg-show-group-types\`' },
 				{ name: 'See what groups I\'m in', value: '\`/lfg-my-groups\`' },
-			);
+			)
+			.setFooter({ text: `v${version}` });
 		try {
 			await interaction.reply({ embeds: [helpDoc] });
 		} catch(err) {

@@ -1,5 +1,5 @@
 # Nihilum LFG Bot
-<sup>version: 0.1.0</sup>
+<sup>version: 1.0.0</sup>
 
 Discord LFG bot for Nihilum guilds in AFK Arena
 
