@@ -11,7 +11,7 @@ This project uses Discord.js https://discord.js.org/#/
 
 To compile, you must have NodeJS >=14.16.1 installed.
 
-### Installing
+### Deployment
 
 1. Clone a copy of the repository
 	1. `cd /project/directory`
@@ -19,18 +19,34 @@ To compile, you must have NodeJS >=14.16.1 installed.
 1. Install the necessary packages
 	1. `cd /project/directory/nihilum_lfg_bot`
 	1. `npm install`
-1. Start up a development environment using npm
-	1. `npm run dev`
-1. RECOMMENDED: track all branches
-	1. `git checkout dev`
-
-## Deployment
-
-1. TBD
+1. Setup the variables in a `.env` file
+1. Register your commands to the server specified in .env
+	1. `npm run deploy`
+1. Start the bot for development
+	1. `npm run start`
+1. Start the bot for production
+	1. If necessary, install pm2
+		1. `npm install --global pm2`
+	1. Start the bot with pm2
+		1. `pm2 start index.js --name "nihilum-lfg-bot"`
+	1. Check the console logs
+		1. `pm2 monit`
+	1. Stop the bot
+		1. `pm2 stop "nihilum-lfg-bot"`
+	1. Restart the bot
+		1. `pm2 restart "nihilum-lfg-bot"`
+	1. Start pm2 at boot
+		1. `pm2 startup`
+		1. Run the command that pm2 generates
+		1. Save your currently running list to start at boot (note, the bot must be running when you run this)
+			1. `pm2 save`
+	1. Disable pm2 at boot
+		1. `pm2 unstartup`
 
 ## Built With
 
 * [Discord.js](https://discord.js.org/#/)
+* [sqlite](https://www.npmjs.com/package/sqlite3)
 
 ## Versioning
 
