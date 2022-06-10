@@ -9,7 +9,7 @@ This project uses Discord.js https://discord.js.org/#/
 
 ### Prerequisites
 
-To compile, you must have NodeJS >=14.16.1 installed.
+To compile, you must have NodeJS >=16.15.1 installed.
 
 ### Deployment
 
