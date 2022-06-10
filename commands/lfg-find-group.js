@@ -48,7 +48,11 @@ module.exports = {
 					)
 				}
 			}
-			DiscordPagination(interaction, pageResults);
+			if(pageResults.length > 0) {
+				DiscordPagination(interaction, pageResults);
+			} else {
+				await interaction.reply({content: `There are no open "${typeEntry.name}" groups right now, sorry ☆⌒(> _ <)`})
+			}
 		} catch(err) {
 			await interaction.reply({content: `Something went wrong finding your groups ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);

@@ -22,7 +22,11 @@ module.exports = {
 					)
 				)
 			}
-			DiscordPagination(interaction, pageResults);
+			if(pageResults.length > 0) {
+				DiscordPagination(interaction, pageResults);
+			} else {
+				await interaction.reply({content: `There are no group types yet! Tell your admins to make some! ヽ(・∀・)ﾉ`})
+			}
 		} catch(err) {
 			await interaction.reply({content: `Something went wrong finding the group types ๐·°(⋟﹏⋞)°·๐ Please report this to your admins. ;-;`, ephemeral: true});
 			console.log(err);

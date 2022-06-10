@@ -38,7 +38,7 @@ module.exports = {
 				)
 			}
 			if(pageResults.length === 0) {
-				await interaction.reply({content: `Looks like you're not in any groups. Go find some with \`/lfg-find-group\`!`, ephemeral: true});
+				await interaction.reply({content: `Looks like you're not in any groups. Go find some with \`/lfg-find-group type:<type>\`!`, ephemeral: true});
 			} else {
 				DiscordPagination(interaction, pageResults);
 			}
