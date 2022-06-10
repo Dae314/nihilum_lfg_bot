@@ -20,6 +20,15 @@ To compile, you must have NodeJS >=14.16.1 installed.
 	1. `cd /project/directory/nihilum_lfg_bot`
 	1. `npm install`
 1. Setup the variables in a `.env` file
+1. Add the bot to your Discord server
+	1. Go to the My Apps page under the "Applications" section on the Discord Developer console
+	1. Click on your bot application, and open the OAuth2 page
+	1. Open Discord's OAuth2 URL generator
+		1. Select the `bot` and `applications.commands` options.
+		1. Once you select the `bot` option, a list of permissions will appear
+		1. Select `Read Messages/View Channels`, `Send Messages`, and `Read Message History`
+		1. Copy the link that is generated and paste it into your browser
+	1. Follow Discord's prompts to add the bot to your server
 1. Register your commands to the server specified in .env
 	1. `npm run deploy`
 1. Start the bot for development
